@@ -31,7 +31,7 @@ app.use(express.urlencoded({extended:true}))
 
 // configure cors and use it
 var corsOptions = {
-    origin:["http://localhost:3000", "http://netlify.blah"],
+    origin:["http://localhost:3001", "http://netlify.blah"],
     optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions))

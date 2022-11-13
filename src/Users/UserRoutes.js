@@ -1,8 +1,7 @@
-const { response } = require('express')
 const express = require('express')
 const routes = express.Router()
 
-const {signUpUser, signInUser, validateUserSession} = require('./UserFunctions')
+const {signUpUser, signInUser} = require('./UserFunctions')
 
 routes.post('/sign-up', async(req, res) =>{
     let newUserDetails = {
@@ -34,6 +33,7 @@ respObj = {
     refreshToken: signInResult.user.refreshToken,
     displayName: signInResult.user.displayName
 }
+
 
 res.json(respObj)
 
