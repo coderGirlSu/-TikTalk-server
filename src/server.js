@@ -4,7 +4,6 @@ const cors = require('cors')
 const helmet = require('helmet')
 
 // read key-values from .env file and set them as environment variables
-// require .env and initialize it 
 require('dotenv').config()
 
 const PORT = process.env.PORT || 0
@@ -40,9 +39,11 @@ app.use(cors(corsOptions))
 
 const firebaseAdmin = require('firebase-admin')
 firebaseAdmin.initializeApp({
-    "projectId":process.env.FIREBASE_ADMIN_PROJECT_ID,
-    "privateKey":process.env.FIREBASE_ADMIN_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    "clientEmail":process.env.FIREBASE_ADMIN_CLIENT_EMAIL
+    credential:firebaseAdmin.credential.cert({
+        "projectId":process.env.FIREBASE_ADMIN_PROJECT_ID,
+        "privateKey":process.env.FIREBASE_ADMIN_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        "clientEmail":process.env.FIREBASE_ADMIN_CLIENT_EMAIL
+    })
 })
 
 // ------------------- Routes-------------------------
@@ -55,6 +56,9 @@ app.get('/', (req, res) => {
     })
     res.send('')
 })
+
+const importedUserRouting = require('./Users/UserRoutes')
+app.use('/users', importedUserRouting)
 
 
 module.exports = {
