@@ -49,7 +49,7 @@ firebaseAdmin.initializeApp({
 
 
 if(process.env.NODE_ENV != "test"){
-    const DATABASE_URI = process.env.DATABASE_URI || "mongodb+srv://TikTalk:aMwH3scJr8kLqT3xHoAugrp@tiktalk.8r96eee.mongodb.net/?retryWrites=true&w=majority"
+    const DATABASE_URI = process.env.DATABASE_URI
     databaseConnector(DATABASE_URI).then(()=>{
         console.log("Database connected!")
     }).catch(error=>{
