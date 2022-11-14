@@ -1,19 +1,29 @@
 const express = require('express')
 const routes = express.Router()
-
 const {sendMessage} = require('./MessageFunctions')
+const {validateToken} = require('../Users/UserFunctions')
 
 routes.post('/', async(req, res)=>{
+    // check if the token is valid and get the user details
+    let userDetails = await validateToken(req.headers.authorization) 
+    // if no details are returned then the token was invalid, should stop
+    if (userDetails == null) {
+        res.json({"error": "invalid token"})
+        return
+    }
 
+    // otherwise, carry on and send the message
     let newMessage = {
         message: req.body.message,
-        displayName: req.body.username,
+        senderId: userDetails.uid,
+        groupId: req.body.groupId
     }
-    
+
     let sendMessageResult = await sendMessage(newMessage)
+
+    console.log(sendMessageResult)
         
-    // console.log(sendMessageResult.message)
-    res.json(sendMessageResult.message)
+    res.json(sendMessageResult)
 })
 
 module.exports = routes
