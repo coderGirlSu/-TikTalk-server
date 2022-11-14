@@ -32,7 +32,7 @@ app.use(express.urlencoded({extended:true}))
 
 // configure cors and use it
 var corsOptions = {
-    origin:["http://localhost:3001", "http://netlify.blah"],
+    origin:["http://localhost:3000", "http://netlify.blah"],
     optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions))
@@ -50,6 +50,7 @@ firebaseAdmin.initializeApp({
 
 if(process.env.NODE_ENV != "test"){
     const DATABASE_URI = process.env.DATABASE_URI
+    console.log("connecting to " + DATABASE_URI)
     databaseConnector(DATABASE_URI).then(()=>{
         console.log("Database connected!")
     }).catch(error=>{
