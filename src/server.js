@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const helmet = require('helmet')
+const {databaseConnector} = require('./database')
 
 // read key-values from .env file and set them as environment variables
 require('dotenv').config()
@@ -46,6 +47,18 @@ firebaseAdmin.initializeApp({
     })
 })
 
+
+if(process.env.NODE_ENV != "test"){
+    const DATABASE_URI = process.env.DATABASE_URI || "mongodb+srv://TikTalk:aMwH3scJr8kLqT3xHoAugrp@tiktalk.8r96eee.mongodb.net/?retryWrites=true&w=majority"
+    databaseConnector(DATABASE_URI).then(()=>{
+        console.log("Database connected!")
+    }).catch(error=>{
+        console.log(`some error occurred , it was${error}`)
+    })
+}
+
+
+
 // ------------------- Routes-------------------------
 // server behaviour
 app.get('/', (req, res) => {
@@ -59,6 +72,9 @@ app.get('/', (req, res) => {
 
 const importedUserRouting = require('./Users/UserRoutes')
 app.use('/users', importedUserRouting)
+
+const importedMessageRouting = require('./Messages/MessageRoutes')
+app.use('/messages', importedMessageRouting)
 
 
 module.exports = {
