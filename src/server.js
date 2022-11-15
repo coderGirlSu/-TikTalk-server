@@ -77,6 +77,9 @@ app.use('/users', importedUserRouting)
 const importedMessageRouting = require('./Messages/MessageRoutes')
 app.use('/messages', importedMessageRouting)
 
+const importedGroupRouting = require('./Groups/GroupRoutes')
+app.use('/groups',importedGroupRouting)
+
 
 module.exports = {
     app, PORT, HOST
