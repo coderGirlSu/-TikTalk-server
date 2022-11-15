@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 
 const GroupSchema = new mongoose.Schema({
-    groupId: String
+    groupName: String,
+    userIds: [String]
 },{timestamps: true})
 
 const Group = mongoose.model('Group', GroupSchema)

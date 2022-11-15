@@ -3,6 +3,7 @@ const routes = express.Router()
 const {sendMessage} = require('./MessageFunctions')
 const {validateToken} = require('../Users/UserFunctions')
 
+// send a message
 routes.post('/', async(req, res)=>{
     // check if the token is valid and get the user details
     let userToken = await validateToken(req.headers.authorization) 
@@ -21,7 +22,7 @@ routes.post('/', async(req, res)=>{
 
     let sendMessageResult = await sendMessage(newMessage)
 
-    console.log(sendMessageResult)
+    // console.log(sendMessageResult)
         
     res.json(sendMessageResult)
 })
