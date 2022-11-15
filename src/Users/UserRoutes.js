@@ -3,6 +3,7 @@ const routes = express.Router()
 
 const {signUpUser, signInUser} = require('./UserFunctions')
 
+// user sign up
 routes.post('/sign-up', async(req, res) =>{
     let newUserDetails = {
         email: req.body.email,
@@ -19,7 +20,7 @@ routes.post('/sign-up', async(req, res) =>{
 
 })
 
-
+// user sign in
 routes.post('/sign-in', async(req, res) =>{
     let userDetails = {
         email: req.body.email,
@@ -28,13 +29,11 @@ routes.post('/sign-in', async(req, res) =>{
 
 let signInResult = await signInUser(userDetails)
 
-
 respObj = {
     jwt: await signInResult.user.getIdToken(),
     refreshToken: signInResult.user.refreshToken,
     displayName: signInResult.user.displayName
 }
-
 
 res.json(respObj)
 
