@@ -40,11 +40,9 @@ async function addUserToGroup(groupDetails){
    if (!userGroup.userIds.includes(userRecord.uid)){
     userGroup.userIds.push(userRecord.uid)
     await userGroup.save()
-    console.log(userGroup)
     return userGroup
    }else {
     return {"error":'you can\'t do this! user is already in this group'}
-    // console.log('you can\'t do this! user has already in this group!')
    }
      
     // .then((getUsersResult) => {
