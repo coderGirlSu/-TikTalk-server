@@ -4,11 +4,32 @@ const cors = require('cors')
 const helmet = require('helmet')
 const {databaseConnector} = require('./database')
 
+// https stuff
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+
 // read key-values from .env file and set them as environment variables
 require('dotenv').config()
 
-const PORT = process.env.PORT || 0
-const HOST = '0.0.0.0'
+let httpsServer
+// Certificate
+if (process.env.USE_HTTPS == "true") {
+    const privateKey = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/privkey.pem', 'utf8');
+    const certificate = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/cert.pem', 'utf8');
+    const ca = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/chain.pem', 'utf8');
+
+    const credentials = {
+        key: privateKey,
+        cert: certificate,
+        ca: ca
+    };
+
+    httpsServer = https.createServer(credentials, app);
+} 
+
+// Starting both http & https servers
+const httpServer = http.createServer(app);
 
 // catches any unhandled rejections(which are failed promises)
 void process.on('unhandledRejection', (reason, p) => {
@@ -50,9 +71,7 @@ firebaseAdmin.initializeApp({
 
 if(process.env.NODE_ENV != "test"){
     const DATABASE_URI = process.env.DATABASE_URI
-    console.log("connecting to " + DATABASE_URI)
     databaseConnector(DATABASE_URI).then(()=>{
-        console.log("Database connected!")
     }).catch(error=>{
         console.log(`some error occurred , it was${error}`)
     })
@@ -81,6 +100,9 @@ const importedGroupRouting = require('./Groups/GroupRoutes')
 app.use('/groups',importedGroupRouting)
 
 
+
+
+
 module.exports = {
-    app, PORT, HOST
+    httpServer, httpsServer
 }
