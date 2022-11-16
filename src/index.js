@@ -3,7 +3,7 @@ var {httpServer, httpsServer} = require('./server')
 
 
 if (process.env.USE_HTTPS == "true") {
-    httpServer.listen(process.env.HTTPS_PORT, () => {
+    httpsServer.listen(process.env.HTTPS_PORT, () => {
         console.log("Running HTTPS TikTalk 💬 server on port " + process.env.HTTPS_PORT)
     })
 } else {
