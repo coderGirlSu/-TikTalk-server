@@ -1,6 +1,7 @@
 const { Message } = require('../database/schemas/MessagesSchema')
 const {Group} = require('../database/schemas/GroupSchema')
-
+const firebaseAdmin = require('firebase-admin')
+const {getAuth} = require ("firebase/auth")
 // get group message history
 async function getHistory(groupDetails){
 
@@ -20,6 +21,7 @@ async function createGroup(groupDetails){
     return groupResult
 }
 
+// get user's group
 async function getUserGroup(userDetails){
     let userGroups = await Group.find({userIds:userDetails.userId})
     return userGroups
@@ -79,5 +81,7 @@ async function leaveGroup(userDetails){
 module.exports = {
     getHistory,
     createGroup,
-    getUserGroup
+    getUserGroup,
+    addUserToGroup,
+    leaveGroup
 }
