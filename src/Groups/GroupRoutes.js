@@ -5,6 +5,7 @@ const {validateToken} = require('../Users/UserFunctions')
 const {createGroup} = require('./GroupFunctions')
 const {getUserGroup} = require('./GroupFunctions')
 const {addUserToGroup} = require('./GroupFunctions')
+const {leaveGroup} = require('./GroupFunctions')
 
 // get group message history
 routes.get('/history', async(req,res)=>{
@@ -16,7 +17,7 @@ routes.get('/history', async(req,res)=>{
     }
 
     let groupDetails = {
-        groupId: req.body.groupId
+        groupId: req.query.groupId
     }
     let getHistoryResult = await getHistory(groupDetails)
 
@@ -74,6 +75,24 @@ routes.patch('/add', async(req, res)=>{
 
     let addUserResult = await addUserToGroup(groupDetails)
     res.json(addUserResult)
+})
+
+// leave a group
+routes.patch('/leave', async(req, res)=>{
+    let userToken = await validateToken(req.headers.authorization)
+    if (userToken == null) {
+        res.json({"error":"invalid token"})
+        return
+    }
+
+    let userDetails = {
+        groupId: req.body.groupId,
+        userId: userToken.uid
+    }
+   
+    let leaveGroupResult = await leaveGroup(userDetails)
+    res.json(leaveGroupResult)
+    
 })
 
 
