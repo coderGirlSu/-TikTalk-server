@@ -61,22 +61,15 @@ async function addUserToGroup(groupDetails){
     // });
 }
 
+// remove a user from a group 
 async function leaveGroup(userDetails){
-    console.log(userDetails)
-    let userGroup = await Message.findById({groupId:userDetails.groupId})
-
-    // console.log(userGroup)
-
-    let userRecord = await firebaseAdmin.auth().getUsers(userDetails.userId)
-
-    console.log(userRecord)
-
-    // let Result = await Group.findByIdAndDelete(userRecord.uid)
-
-    return Result
+    let groupRecord = await Group.findById(userDetails.groupId)
+    let usersInGroup = groupRecord["userIds"]
+    let updatedUsersInGroup = usersInGroup.remove(userDetails.userId)
+    groupRecord.userIds = updatedUsersInGroup // update the groupRecord
+    await groupRecord.save()
+    return groupRecord
 }
-
-
 
 module.exports = {
     getHistory,
