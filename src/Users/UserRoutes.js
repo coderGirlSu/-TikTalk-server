@@ -14,9 +14,25 @@ routes.post('/sign-up', async(req, res) =>{
 
     let signUpResult = await signUpUser(newUserDetails)
 
+    if (signUpResult.error != null){
+        res.json(signUpResult);
+        return; 
+    }
+
     let signInResult = await signInUser({email:newUserDetails.email, password:newUserDetails.password})
+
+    if (signInResult.error != null){
+        res.json(signInResult);
+        return;
+    }
+
+    respObj = {
+        jwt: await signInResult.user.getIdToken(),
+        refreshToken: signInResult.user.refreshToken,
+        displayName: signInResult.user.displayName
+    }
     
-    res.json(signInResult)
+    res.json(respObj)
 
 })
 
@@ -28,6 +44,11 @@ routes.post('/sign-in', async(req, res) =>{
     }
 
 let signInResult = await signInUser(userDetails)
+
+if (signInResult.error != null){
+    res.json(signInResult);
+    return; 
+}
 
 respObj = {
     jwt: await signInResult.user.getIdToken(),
