@@ -29,7 +29,8 @@ routes.post('/sign-up', async(req, res) =>{
     respObj = {
         jwt: await signInResult.user.getIdToken(),
         refreshToken: signInResult.user.refreshToken,
-        displayName: signInResult.user.displayName
+        displayName: signInResult.user.displayName,
+        userId: signInResult.user.uid
     }
     
     res.json(respObj)
@@ -53,7 +54,8 @@ if (signInResult.error != null){
 respObj = {
     jwt: await signInResult.user.getIdToken(),
     refreshToken: signInResult.user.refreshToken,
-    displayName: signInResult.user.displayName
+    displayName: signInResult.user.displayName,
+    userId: signInResult.user.uid
 }
 
 res.json(respObj)
