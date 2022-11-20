@@ -4,7 +4,7 @@ const MessagesSchema = new mongoose.Schema({
     message: String,
     senderId: String,
     groupId: String,
-    senderEmail: String
+    senderName: String
 },{timestamps: true});
 
 

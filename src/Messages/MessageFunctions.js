@@ -6,7 +6,7 @@ async function sendMessage(userMessage){
         message: userMessage.message,
         senderId: userMessage.senderId,
         groupId: userMessage.groupId,
-        senderEmail: userMessage.senderEmail
+        senderName: userMessage.senderName
     })
 
     let messageResult = await newMessage.save()

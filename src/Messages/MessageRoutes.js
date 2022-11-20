@@ -12,13 +12,13 @@ routes.post('/', async(req, res)=>{
         res.json({"error": "invalid token"})
         return
     }
-
+    console.log(userToken)
     // otherwise, carry on and send the message
     let newMessage = {
         message: req.body.message,
         senderId: userToken.uid,
         groupId: req.body.groupId,
-        senderEmail: userToken.email
+        senderName: userToken.name
     }
 
     let sendMessageResult = await sendMessage(newMessage)
