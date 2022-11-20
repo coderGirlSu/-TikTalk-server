@@ -77,8 +77,6 @@ if(process.env.NODE_ENV != "test"){
     })
 }
 
-
-
 // ------------------- Routes-------------------------
 // server behaviour
 app.get('/', (req, res) => {

@@ -21,7 +21,6 @@ routes.get('/history', async(req,res)=>{
     }
     let getHistoryResult = await getHistory(groupDetails)
 
-    // console.log(getHistoryResult)
     res.json(getHistoryResult)
 })
 
