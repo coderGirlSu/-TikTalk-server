@@ -21,7 +21,6 @@ routes.get('/history', async(req,res)=>{
     }
     let getHistoryResult = await getHistory(groupDetails)
 
-    // console.log(getHistoryResult)
     res.json(getHistoryResult)
 })
 
@@ -39,7 +38,6 @@ routes.post('/create', async(req, res)=>{
     }
     
     let newGroup = await createGroup(groupDetails)
-    // console.log(newGroup)
     res.json(newGroup)
 })
 
@@ -91,7 +89,12 @@ routes.patch('/leave', async(req, res)=>{
     }
    
     let leaveGroupResult = await leaveGroup(userDetails)
-    res.json(leaveGroupResult)
+
+    let status = 200
+    if (leaveGroupResult.error) {
+        status = 400
+    }
+    res.status(status).json(leaveGroupResult)
     
 })
 

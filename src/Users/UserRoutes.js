@@ -9,7 +9,6 @@ routes.post('/sign-up', async(req, res) =>{
         email: req.body.email,
         password: req.body.password,
         displayName: req.body.username,
-        // photoURL: '',
     }
 
     let signUpResult = await signUpUser(newUserDetails)

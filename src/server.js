@@ -104,5 +104,5 @@ app.use('/groups',importedGroupRouting)
 
 
 module.exports = {
-    httpServer, httpsServer
+    httpServer, httpsServer, app
 }

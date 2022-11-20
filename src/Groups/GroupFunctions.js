@@ -2,9 +2,9 @@ const { Message } = require('../database/schemas/MessagesSchema')
 const {Group} = require('../database/schemas/GroupSchema')
 const firebaseAdmin = require('firebase-admin')
 const {getAuth} = require ("firebase/auth")
+
 // get group message history
 async function getHistory(groupDetails){
-
     let historyResult = await Message.find({groupId: groupDetails.groupId})
     return historyResult
 }

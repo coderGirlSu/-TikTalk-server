@@ -42,6 +42,7 @@ async function validateToken(token){
     try {
         let jwt = token.split(" ")[1] // remove Bearer before token
         let result = await firebaseAdmin.auth().verifyIdToken(jwt, true)
+        console.log(result)
         return result
     } catch(e)
      {
