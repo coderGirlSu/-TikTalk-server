@@ -14,6 +14,7 @@ routes.post('/', async(req, res)=>{
     }
     console.log(userToken)
     // otherwise, carry on and send the message
+    // create an JS object
     let newMessage = {
         message: req.body.message,
         senderId: userToken.uid,
