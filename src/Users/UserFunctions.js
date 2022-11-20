@@ -19,19 +19,53 @@ async function signUpUser(userDetails) {
         //await firebaseAdmin.auth().setCustomUserClaims(newUser.uid, {regularUser: true}
         return newUser
     }catch(e){
+        if(e.code == "auth/email-already-exists"){
+            return{
+                error: "A user already exists with this email"
+            }
+        }
+        if(e.code == "auth/invalid-password"){
+            return {
+                error: "Invalid password, the password must be at least 6 characters."
+            }
+        }
+        if(e.code == "auth/invalid-email") {
+            return {
+                error: "Invalid email address."
+            }
+        }
         return {error:e}
     }
     
 }
 
 // user sign in
-
 async function signInUser(userDetails){
     try{
         const auth = getAuth() 
         let signInResult = await signInWithEmailAndPassword(auth, userDetails.email, userDetails.password)
         return signInResult
     } catch(e){
+        if (e.code == "auth/wrong-password") {
+            return {
+                error: "wrong password was entered"
+            }
+        }
+        if (e.code == "auth/user-not-found"){
+            return {
+                error: "user not found"
+            }
+        }
+        if(e.code == "auth/internal-error"){
+            return {
+                error: "Invalid password"
+            }
+        }
+        if(e.code == "auth/invalid-email"){
+            return {
+                error: "Invalid email"
+            }
+        }
         return {error:e}
     }
     
