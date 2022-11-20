@@ -17,7 +17,8 @@ routes.post('/', async(req, res)=>{
     let newMessage = {
         message: req.body.message,
         senderId: userToken.uid,
-        groupId: req.body.groupId
+        groupId: req.body.groupId,
+        senderEmail: userToken.email
     }
 
     let sendMessageResult = await sendMessage(newMessage)
