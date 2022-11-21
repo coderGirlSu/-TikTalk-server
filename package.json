@@ -7,8 +7,7 @@
     "test": "jest --detectOpenHandles",
     "test-ci": "jest --detectOpenHandles --ci",
     "start": "node src/index.js",
-    "start-production": "NODE_ENV=production node src/index.js",
-    "start-dev": "PORT=55000 NODE_ENV=development nodemon src/index.js"
+    "start-dev": "NODE_ENV=development nodemon src/index.js"
   },
   "repository": {
     "type": "git",

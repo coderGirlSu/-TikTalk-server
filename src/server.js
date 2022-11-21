@@ -10,7 +10,12 @@ const http = require('http');
 const https = require('https');
 
 // read key-values from .env file and set them as environment variables
-require('dotenv').config()
+// get the environment variable NODE_ENV. This tells us which environment
+// we are in
+
+// if there is no environment defines then we set development as our default
+console.log("Using environment variables in " + ".env." + process.env.NODE_ENV)
+require('dotenv').config({ path: ".env." + process.env.NODE_ENV })
 
 let httpsServer
 // Certificate
