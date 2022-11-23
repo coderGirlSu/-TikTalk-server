@@ -10,18 +10,18 @@ routes.post('/sign-up', async(req, res) =>{
         password: req.body.password,
         displayName: req.body.username
     }
-
+  
     let signUpResult = await signUpUser(newUserDetails)
-
+    
     if (signUpResult.error != null){
-        res.json(signUpResult);
+        res.status(400).json(signUpResult);
         return; 
     }
 
     let signInResult = await signInUser({email:newUserDetails.email, password:newUserDetails.password})
 
     if (signInResult.error != null){
-        res.json(signInResult);
+        res.status(400).json(signInResult);
         return;
     }
 
@@ -46,7 +46,7 @@ routes.post('/sign-in', async(req, res) =>{
 let signInResult = await signInUser(userDetails)
 
 if (signInResult.error != null){
-    res.json(signInResult);
+    res.status(400).json(signInResult);
     return; 
 }
 

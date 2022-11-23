@@ -3,6 +3,7 @@ const app = express()
 const cors = require('cors')
 const helmet = require('helmet')
 const {databaseConnector} = require('./database')
+const firebaseClient = require("firebase/app")
 
 // https stuff
 const fs = require('fs');
@@ -73,25 +74,18 @@ firebaseAdmin.initializeApp({
     })
 })
 
+firebaseClient.initializeApp({
+    apiKey: process.env.FIREBASE_API_KEY
+})
 
-if(process.env.NODE_ENV != "test"){
-    const DATABASE_URI = process.env.DATABASE_URI
-    databaseConnector(DATABASE_URI).then(()=>{
-    }).catch(error=>{
-        console.log(`some error occurred , it was${error}`)
-    })
-}
+
+const DATABASE_URI = process.env.DATABASE_URI
+databaseConnector(DATABASE_URI).then(()=>{
+}).catch(error=>{
+    console.log(`some error occurred , it was${error}`)
+})
 
 // ------------------- Routes-------------------------
-// server behaviour
-app.get('/', (req, res) => {
-    console.log('ExpressJS API homepage received a request.')
-    const target = process.env.NODE_ENV || 'not yet set'
-    res.json({
-        'message':`Hello ${target} world!`
-    })
-    res.send('')
-})
 
 const importedUserRouting = require('./Users/UserRoutes')
 app.use('/users', importedUserRouting)
@@ -101,9 +95,6 @@ app.use('/messages', importedMessageRouting)
 
 const importedGroupRouting = require('./Groups/GroupRoutes')
 app.use('/groups',importedGroupRouting)
-
-
-
 
 
 module.exports = {

@@ -1,7 +1,6 @@
 const { Message } = require('../database/schemas/MessagesSchema')
 const {Group} = require('../database/schemas/GroupSchema')
 const firebaseAdmin = require('firebase-admin')
-const {getAuth} = require ("firebase/auth")
 
 // get group message history
 async function getHistory(groupDetails){
@@ -47,7 +46,7 @@ async function addUserToGroup(groupDetails){
     try{
         // use friend's email from firebase to get the user id
         let userRecord = await firebaseAdmin.auth().getUserByEmail(groupDetails.userEmail)
-
+        
         // find the group I want add the uer to from mongoDB
         let userGroup = await Group.findById(groupDetails.groupId) 
         
@@ -65,23 +64,25 @@ async function addUserToGroup(groupDetails){
         }else {
             return {error: e}
         }
-
     }
 }
 
-// remove a user from a group 
+// user leave a group 
 async function leaveGroup(userDetails){
-    let groupRecord = await Group.findById(userDetails.groupId)
-    let usersInGroup = groupRecord["userIds"]
-    if (usersInGroup.length > 1){
-        let updatedUsersInGroup = usersInGroup.remove(userDetails.userId)
-        groupRecord.userIds = updatedUsersInGroup // update the groupRecord
-        await groupRecord.save()
-        return groupRecord
-    } else {
-        return {"error": "you can't leave a group, because you are the only one in this group"}
+    try{
+        let groupRecord = await Group.findById(userDetails.groupId)
+        let usersInGroup = groupRecord["userIds"]
+        if (usersInGroup.length > 1){
+            let updatedUsersInGroup = usersInGroup.remove(userDetails.userId)
+            groupRecord.userIds = updatedUsersInGroup // update the groupRecord
+            await groupRecord.save()
+            return groupRecord
+        } else {
+            throw {"error": "You can't leave this group, because you are the only one in this group"}
+        } 
+    } catch(e){
+        return {error: e}
     }
-   
 }
 
 module.exports = {
