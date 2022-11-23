@@ -265,7 +265,7 @@ describe('leave a group if you are the only member should fail', () => {
 describe('send message with invalid token', () => {
     it("lets user send message", async () => {
         const res = await request(app).post('/messages/')
-            .set({ "Authorization": "Bearer " + "invaild" })
+            .set({ "Authorization": "Bearer " + "invalid" })
             .send({
                 message: "some_message",
                 senderId: userID1,
