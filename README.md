@@ -35,7 +35,8 @@ Server-Side:
 - `cd` into that folder, then create another folder called `tiktalk-server`, or whatever best suits you 😊
 - Clone the server repo using the `CLI` from here: `git clone git@github.com:coderGirlSu/TikTalk-server.git`
 - `cd` into that folder (you should see `git` initialize), then run `npm install` or `npm i` to download everything you need to get started!
-- Open a terminal window, and run `npm start` - make sure you have MongoDB open!
+- Set the environment variable `NODE_ENV` to select either the development or production environment. For example `NODE_ENV=production` or `NODE_ENV=development`
+- Open a terminal window, and run `npm start`
 - If all went well, you'll see the server start on port `80` in your terminal!
 
 Client-Side:

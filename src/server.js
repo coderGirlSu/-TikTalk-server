@@ -15,8 +15,12 @@ const https = require('https');
 // we are in
 
 // if there is no environment defines then we set development as our default
-console.log("Using environment variables in " + ".env." + process.env.NODE_ENV)
-require('dotenv').config({ path: ".env." + process.env.NODE_ENV })
+let env = "development"
+if (process.env.NODE_ENV) {
+    env = process.env.NODE_ENV
+}
+console.log("Using environment variables in " + ".env." + env)
+require('dotenv').config({ path: ".env." + env })
 
 let httpsServer
 // Certificate
