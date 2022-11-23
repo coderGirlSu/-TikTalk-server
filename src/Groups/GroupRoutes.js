@@ -10,11 +10,8 @@ const {leaveGroup} = require('./GroupFunctions')
 // get group message history
 routes.get('/history', async(req,res)=>{
     // check user token
-    let userToken = await validateToken(req.headers.authorization)
-    if (userToken == null){
-        res.json({"error": "invalid token"})
-        return
-    }
+    let userToken = await validateToken(req.headers.authorization, res)
+    if (userToken == null) return
 
     let groupDetails = {
         groupId: req.query.groupId
@@ -26,11 +23,8 @@ routes.get('/history', async(req,res)=>{
 
 // create a group
 routes.post('/create', async(req, res)=>{
-    let userToken = await validateToken(req.headers.authorization)
-    if (userToken == null){
-        res.json({"error":"invalid token"})
-        return
-    }
+    let userToken = await validateToken(req.headers.authorization, res)
+    if (userToken == null) return
 
     let groupDetails = {
         userId: userToken.uid,
@@ -43,16 +37,12 @@ routes.post('/create', async(req, res)=>{
 
 // get all groups that the current user is in
 routes.get('/', async(req, res)=>{
-    let userToken = await validateToken(req.headers.authorization)
-    if(userToken == null) {
-        res.json({"error":"invalid token"})
-        return
-    }
+    let userToken = await validateToken(req.headers.authorization, res)
+    if (userToken == null) return
 
     let userDetails = {
         userId: userToken.uid
     }
-
     let userGroupResult = await getUserGroup(userDetails)
 
     res.json(userGroupResult)
@@ -60,11 +50,8 @@ routes.get('/', async(req, res)=>{
 
 // add user to a group
 routes.patch('/add', async(req, res)=>{
-    let userToken = await validateToken(req.headers.authorization)
-    if (userToken == null) {
-        res.json({"error":"invalid token"})
-        return
-    }
+    let userToken = await validateToken(req.headers.authorization, res)
+    if (userToken == null) return
 
     let groupDetails = {
         groupId: req.body.groupId,
@@ -77,11 +64,8 @@ routes.patch('/add', async(req, res)=>{
 
 // leave a group
 routes.patch('/leave', async(req, res)=>{
-    let userToken = await validateToken(req.headers.authorization)
-    if (userToken == null) {
-        res.json({"error":"invalid token"})
-        return
-    }
+    let userToken = await validateToken(req.headers.authorization, res)
+    if (userToken == null) return
 
     let userDetails = {
         groupId: req.body.groupId,

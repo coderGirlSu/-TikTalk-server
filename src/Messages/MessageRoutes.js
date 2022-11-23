@@ -6,12 +6,10 @@ const {validateToken} = require('../Users/UserFunctions')
 // send a message
 routes.post('/', async(req, res)=>{
     // check if the token is valid and get the user details
-    let userToken = await validateToken(req.headers.authorization) 
+    let userToken = await validateToken(req.headers.authorization, res) 
     // if no details are returned then the token was invalid, should stop
-    if (userToken == null) {
-        res.json({"error": "invalid token"})
-        return
-    }
+    if (userToken == null) return
+    
     // otherwise, carry on and send the message
     // create an JS object
     let newMessage = {

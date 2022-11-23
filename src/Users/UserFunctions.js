@@ -1,11 +1,5 @@
 const firebaseAdmin = require('firebase-admin')
-
-const {firebaseConfig} = require('../../keys/firebaseClientKey')
-const firebaseClient = require("firebase/app")
-
 const {getAuth, signInWithEmailAndPassword} = require ("firebase/auth")
-
-firebaseClient.initializeApp(firebaseConfig) // set up firebase code using the config in firebaseConfig
 
 // user sign up
 async function signUpUser(userDetails) {
@@ -48,12 +42,12 @@ async function signInUser(userDetails){
     } catch(e){
         if (e.code == "auth/wrong-password") {
             return {
-                error: "wrong password was entered"
+                error: "Wrong password was entered"
             }
         }
         if (e.code == "auth/user-not-found"){
             return {
-                error: "user not found"
+                error: "User not found"
             }
         }
         if(e.code == "auth/internal-error"){
@@ -72,17 +66,16 @@ async function signInUser(userDetails){
 }
 
 // create a validate token function to verify the user token 
-async function validateToken(token){
+async function validateToken(token, res){
     try {
         let jwt = token.split(" ")[1] // remove Bearer before token
         let result = await firebaseAdmin.auth().verifyIdToken(jwt, true)
-        console.log(result)
         return result
     } catch(e)
      {
+        res.status(400).json({"error": "invalid token"})
         return null
      }
-
 }
 
 module.exports = {
